@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+.pytest_cache/
+.venv/
+.runtime/
+build/
+dist/
+results/
+outputs/
+*.mp4
+*.pt
+*.pth
+*.safetensors

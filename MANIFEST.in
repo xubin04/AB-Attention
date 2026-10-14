@@ -1,0 +1,5 @@
+include THIRD_PARTY.md CITATION.cff
+recursive-include ab_attention/kernels/csrc *.cu *.h
+recursive-include third_party *.h *.hpp *.cuh *.inl *.txt LICENSE
+recursive-include examples *.py
+recursive-include tests *.py

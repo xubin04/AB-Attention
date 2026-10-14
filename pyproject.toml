@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=77", "wheel", "torch>=2.6", "ninja"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ab-attention"
+version = "0.1.0"
+description = "Accurate Block Attention for accelerating video diffusion transformers"
+readme = "README.md"
+requires-python = ">=3.10"
+license-files = ["third_party/ab/*/LICENSE*", "third_party/ab/flash-attention/AUTHORS"]
+dependencies = ["torch>=2.6"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "build"]
+
+[tool.setuptools.packages.find]
+include = ["ab_attention*"]
+namespaces = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
