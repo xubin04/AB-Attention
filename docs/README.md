@@ -15,7 +15,8 @@ Edit `index.html` for content, `static/css/index.css` for layout, and
 - Videos are original Wan2.1-14B outputs, with matched dense and sparse samples
   for Penguin prompts 038 (magpie), 490 (motorcycle), and 521 (mushrooms).
   Gallery-only prompts are 107 (maples) and 448 (house). PSNR is rounded to two
-  decimals from the recorded full-video metrics. Clips were generated on GH200;
+  decimals from the recorded full-video metrics. MP4 indices are moved to the
+  start for web playback without re-encoding the video. Clips were generated on GH200;
   the paper's reported end-to-end speedups were measured on H20.
 - Add the arXiv link and update BibTeX when an identifier is available.
 

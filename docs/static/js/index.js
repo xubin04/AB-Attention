@@ -80,7 +80,7 @@ function ready(video) {
     };
     const loaded = () => finish();
     const failed = () => finish(new Error('Video could not be loaded.'));
-    const timeout = setTimeout(failed, 20000);
+    const timeout = setTimeout(failed, 60000);
     video.addEventListener('canplay', loaded, { once: true });
     video.addEventListener('error', failed, { once: true });
     video.preload = 'auto';
