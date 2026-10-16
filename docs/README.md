@@ -19,6 +19,12 @@ Edit `index.html` for content, `static/css/index.css` for layout, and
   start for web playback without re-encoding the video. Clips were generated on GH200;
   the paper's reported end-to-end speedups were measured on H20.
 - Add the arXiv link and update BibTeX when an identifier is available.
+- The page accent matches the report's `reportaccent` (`#BB0819`), with
+  `cayenne` (`#941100`) for hover states. Keep the favicon and social preview
+  in the same palette.
+- Author links use verified personal homepages where available, otherwise
+  the supplied OpenReview profiles. Affiliations link to their official
+  websites; InfRec links to its Cardinal AI site.
 
 ## Attribution
 
