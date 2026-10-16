@@ -10,8 +10,10 @@ Edit `index.html` for content, `static/css/index.css` for layout, and
 
 ## Content
 
-- Title, authors, affiliations, abstract, PDF, and Table 1 match the technical
-  report as of 2026-10-15 (paper source commit `9499824`).
+- Title, authors, affiliations, abstract, method figure, PDF, and Table 1
+  match the technical report as of 2026-10-16 (paper source commit `a3005da`).
+  `static/images/overview.png` is rendered from
+  `tech-report/fig/ab_attention_framework.pdf` at 2400 pixels wide.
 - Videos are original Wan2.1-14B outputs, with matched dense and sparse samples
   for Penguin prompts 038 (magpie), 490 (motorcycle), and 521 (mushrooms).
   Gallery-only prompts are 107 (maples) and 448 (house). PSNR is rounded to two
