@@ -10,6 +10,7 @@ dist/
 results/
 outputs/
 *.mp4
+!docs/static/videos/*.mp4
 *.pt
 *.pth
 *.safetensors
