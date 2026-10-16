@@ -2,8 +2,12 @@
 
 **Accurate Block Attention for Accelerating Video Diffusion Transformers**
 
-Bin Xu, Mo Zhang, Zhengfeiyang Zhang, Yixing Ma, Xinfeng Yang, Wei Wang,
+Bin Xu, Mo Zhang, Zhengfeiyang Zhang, Xinfeng Yang, Yixing Ma, Wei Wang,
 HeXin Wang, Pengfei Zhou, Wangbo Zhao
+
+[**Project page**](https://xubin04.github.io/AB-Attention/) ·
+[**Paper**](https://xubin04.github.io/AB-Attention/static/papers/ab-attention.pdf) ·
+[**Video comparisons**](https://xubin04.github.io/AB-Attention/#comparisons)
 
 Core implementation of AB-Attention: intra-block clustering selection,
 systematic sampling with inclusion-probability weighting, and Hopper

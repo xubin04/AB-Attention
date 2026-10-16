@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AB-Attention: Accurate Block Attention for Accelerating Video Diffusion Transformers</title>
+  <meta name="description" content="AB-Attention is a training-free sparse attention method for video diffusion transformers, combining intra-block clustering, inclusion-probability weighting, and fine-grained tiled execution.">
+  <meta name="theme-color" content="#ffffff">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="AB-Attention — Accurate Block Attention">
+  <meta property="og:description" content="Training-free sparse attention for accelerating video diffusion transformers. Explore the method, video comparisons, paper, and code.">
+  <meta property="og:url" content="https://xubin04.github.io/AB-Attention/">
+  <meta property="og:image" content="https://xubin04.github.io/AB-Attention/static/images/social-preview.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="AB-Attention: Accurate Block Attention for Accelerating Video Diffusion Transformers, with three generated video examples.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://xubin04.github.io/AB-Attention/">
+  <link rel="preload" href="static/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="static/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="icon" href="static/images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  <script defer src="static/js/index.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#abstract">Skip to content</a>
+  <main>
+    <section class="hero" aria-labelledby="paper-title">
+      <div class="hero-body">
+        <div class="container is-max-desktop has-text-centered">
+          <p class="eyebrow"><span class="block-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>Training-free video diffusion</p>
+          <h1 class="title publication-title" id="paper-title">
+            <span class="project-name">AB-Attention</span>
+            <span class="paper-subtitle">Accurate Block Attention for<br class="desktop-break"> Accelerating Video Diffusion Transformers</span>
+          </h1>
+          <div class="publication-authors">
+            <div class="author-row">
+            <span class="author-block"><a href="https://openreview.net/profile?id=~Bin_Xu8">Bin Xu</a><sup>1,2</sup></span>
+            <span class="author-block"><a href="https://openreview.net/profile?id=~Mo_Zhang1">Mo Zhang</a><sup>3</sup></span>
+            <span class="author-block"><a href="https://openreview.net/profile?id=~Zhengfeiyang_Zhang2">Zhengfeiyang Zhang</a><sup>1,4</sup></span>
+            <span class="author-block">Xinfeng Yang<sup>6</sup></span>
+            <span class="author-block"><a href="https://openreview.net/profile?id=~Yixing_Ma1">Yixing Ma</a><sup>1,5</sup></span>
+            </div>
+            <div class="author-row">
+            <span class="author-block"><a href="https://openreview.net/profile?id=~Wei_Wang50">Wei Wang</a><sup>7</sup></span>
+            <span class="author-block"><a href="https://openreview.net/profile?id=~HeXin_Wang3">HeXin Wang</a><sup>1</sup></span>
+            <span class="author-block"><a href="https://openreview.net/profile?id=~Pengfei_Zhou1">Pengfei Zhou</a><sup>1,8,†</sup></span>
+            <span class="author-block"><a href="https://openreview.net/profile?id=~Wangbo_Zhao1">Wangbo Zhao</a><sup>7,†</sup></span>
+            </div>
+          </div>
+          <div class="publication-affiliations">
+            <div class="affiliation-row">
+            <span><sup>1</sup>InfRec</span>
+            <span><sup>2</sup>The Chinese University of Hong Kong, Shenzhen</span>
+            <span><sup>3</sup>Shandong University</span>
+            </div>
+            <div class="affiliation-row">
+            <span><sup>4</sup>The University of Tokyo</span>
+            <span><sup>5</sup>University of California, Berkeley</span>
+            <span><sup>6</sup>Fudan University</span>
+            </div>
+            <div class="affiliation-row">
+            <span><sup>7</sup>The Hong Kong University of Science and Technology</span>
+            <span><sup>8</sup>National University of Singapore</span>
+            </div>
+          </div>
+          <p class="corresponding"><sup>†</sup> Corresponding authors</p>
+          <div class="publication-links">
+            <a class="button paper-button" href="static/papers/ab-attention.pdf">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14 3H6v18h12V7zM14 3v5h4M9 12h6M9 16h6"/></svg>
+              <span>Read the paper</span>
+            </a>
+            <a class="button code-button" href="https://github.com/xubin04/AB-Attention">
+              <svg class="github-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.86c-2.78.6-3.37-1.18-3.37-1.18-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.64-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.58 9.58 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.76c0 .26.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+              <span>GitHub</span>
+            </a>
+            <a class="button cite-button" href="#bibtex">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9 5H6v14h3m6-14h3v14h-3M10 12h4"/></svg>
+              <span>BibTeX</span>
+            </a>
+          </div>
+          <nav class="section-nav" aria-label="Page sections">
+            <a href="#abstract">Overview</a><a href="#method">Method</a><a href="#comparisons">Video comparisons</a><a href="#results">Results</a>
+          </nav>
+        </div>
+      </div>
+    </section>
+
+    <section class="teaser section" aria-label="Videos generated with AB-Attention">
+      <div class="container page-width">
+        <div class="teaser-grid">
+          <figure>
+            <video class="gallery-video" muted loop playsinline preload="none" controls poster="static/images/magpie-ab-attention.webp" aria-label="AB-Attention: a magpie takes flight">
+              <source src="static/videos/magpie-ab-attention.mp4" type="video/mp4">
+            </video>
+            <figcaption>Magpie in flight</figcaption>
+          </figure>
+          <figure>
+            <video class="gallery-video" muted loop playsinline preload="none" controls poster="static/images/maples-ab-attention.webp" aria-label="AB-Attention: autumn maples reflected on a lake">
+              <source src="static/videos/maples-ab-attention.mp4" type="video/mp4">
+            </video>
+            <figcaption>Autumn on the lake</figcaption>
+          </figure>
+          <figure>
+            <video class="gallery-video" muted loop playsinline preload="none" controls poster="static/images/house-ab-attention.webp" aria-label="AB-Attention: a floating house on the sea">
+              <source src="static/videos/house-ab-attention.mp4" type="video/mp4">
+            </video>
+            <figcaption>A house at sea</figcaption>
+          </figure>
+        </div>
+        <div class="gallery-caption">
+          <span>Generated with AB-Attention on Wan2.1-T2V-14B.</span>
+          <button class="text-button" id="gallery-toggle" type="button" aria-pressed="false" hidden>Play gallery</button>
+        </div>
+        <p class="teaser-summary"><strong>Fine-grained selection. Full-tile execution.</strong><br>Faster video generation, with the details intact.</p>
+        <div class="highlights" aria-label="Key results reported in the paper">
+          <div><span class="stat-label">High sparsity</span><strong>89–92<span>%</span></strong><p>of video attention skipped</p></div>
+          <div><span class="stat-label">Faster generation</span><strong>2.23<span>×</span></strong><p>up to, end-to-end speedup</p></div>
+          <div><span class="stat-label">Better fidelity</span><strong>+4.4 <span>dB</span></strong><p>up to, over the strongest baseline</p></div>
+        </div>
+        <p class="fine-print has-text-centered">Results reported on Wan2.1 and HunyuanVideo. Speed measured on NVIDIA H20; sparsity refers to video attention in sparse denoising steps.</p>
+      </div>
+    </section>
+
+    <section class="section section-tinted" id="abstract" aria-labelledby="abstract-title">
+      <div class="container text-width">
+        <p class="section-kicker">The idea</p>
+        <h2 class="title is-3 section-title" id="abstract-title">Abstract</h2>
+        <div class="content abstract-copy">
+          <p>Video diffusion transformers generate high-quality videos, but the quadratic cost of 3D full attention dominates their inference. Dynamic block-sparse attention reduces this cost by selecting key/value blocks from the current activations and computing exact attention only on the selected ones. However, its fidelity degrades under aggressive sparsity: blocks are scored from coarse summaries or formed by costly global clustering, pruned blocks vanish from the softmax, and whole tiles are kept or dropped even when only a few of their keys matter.</p>
+          <p>We present Accurate Block Attention (<strong>AB-Attention</strong>), a training-free method that addresses each limitation. Its Intra-Block Clustering Selector (IBCS) estimates block importance faithfully yet cheaply by clustering queries only within each query block, without permuting tokens. Sampling with Inclusion-Probability Weighting (SIP) then samples blocks in proportion to these estimates and reweights them by inverse inclusion probability, so that one pass estimates dense attention rather than truncating it. Finally, its kernel gathers key/value blocks much smaller than a tile into full tensor-core tiles, refining selection at no extra tensor-core cost.</p>
+          <p>On Wan2.1 and HunyuanVideo, AB-Attention skips 89–92% of attention, whereas the baselines compute 1.8–3.6× as much, yet it still improves PSNR by up to 4.4 dB over the strongest baseline and achieves up to 2.23× end-to-end speedup.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="method" aria-labelledby="method-title">
+      <div class="container page-width">
+        <p class="section-kicker">The method</p>
+        <h2 class="title is-3 section-title" id="method-title">How AB-Attention works</h2>
+        <p class="section-intro">Estimate block importance, sample and reweight, then gather small blocks into full GPU tiles.</p>
+        <figure class="method-figure">
+          <a href="static/images/overview.png" aria-label="Open the full-size AB-Attention method figure">
+            <img src="static/images/overview.png" width="2400" height="565" loading="lazy" alt="Three stages of AB-Attention: query clusters score key blocks; score-proportional sampling assigns inverse-inclusion weights; sampled blocks are gathered into full tensor-core tiles.">
+          </a>
+          <figcaption>AB-Attention separates the selection unit from the execution tile.</figcaption>
+        </figure>
+        <div class="method-grid">
+          <div><h3><span>01</span> Intra-block clustering</h3><p>Cluster queries within each block to score small key/value blocks, keeping the original token order.</p></div>
+          <div><h3><span>02</span> Sample and reweight</h3><p>Sample blocks in proportion to their scores and apply inverse-inclusion weights to estimate dense attention.</p></div>
+          <div><h3><span>03</span> Execute in full tiles</h3><p>Gather four-token key/value blocks on chip into full tensor-core tiles for a single attention pass.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-tinted" id="comparisons" aria-labelledby="comparison-title">
+      <div class="container page-width">
+        <p class="section-kicker">See it in motion</p>
+        <h2 class="title is-3 section-title" id="comparison-title">Qualitative comparisons</h2>
+        <p class="section-intro">Wan2.1-T2V-14B · 720p · matched prompts and seeds</p>
+        <div class="sample-selector" role="group" aria-label="Choose a video example" hidden>
+          <button type="button" data-sample="magpie" aria-pressed="true">Magpie in flight</button>
+          <button type="button" data-sample="motorcycle" aria-pressed="false">Sunset ride</button>
+          <button type="button" data-sample="mushrooms" aria-pressed="false">Wild mushrooms</button>
+        </div>
+        <p class="prompt-text" id="comparison-prompt">“A magpie takes off with a twig in its beak, in anime style.”</p>
+        <div class="comparison-grid">
+          <figure data-method="dense">
+            <figcaption>Dense attention <span>Reference</span></figcaption>
+            <video muted playsinline preload="none" controls poster="static/images/magpie-dense.webp" aria-label="Dense attention reference video">
+              <source src="static/videos/magpie-dense.mp4" type="video/mp4">
+            </video>
+            <p class="video-metric">Full attention</p>
+          </figure>
+          <figure class="ours" data-method="ab-attention">
+            <figcaption>AB-Attention <span>Ours</span></figcaption>
+            <video muted playsinline preload="none" controls poster="static/images/magpie-ab-attention.webp" aria-label="AB-Attention comparison video">
+              <source src="static/videos/magpie-ab-attention.mp4" type="video/mp4">
+            </video>
+            <p class="video-metric">PSNR 30.51 dB</p>
+          </figure>
+          <figure data-method="dfs-attn">
+            <figcaption>DFSAttn</figcaption>
+            <video muted playsinline preload="none" controls poster="static/images/magpie-dfs-attn.webp" aria-label="DFSAttn comparison video">
+              <source src="static/videos/magpie-dfs-attn.mp4" type="video/mp4">
+            </video>
+            <p class="video-metric">PSNR 26.64 dB</p>
+          </figure>
+          <figure data-method="svg2">
+            <figcaption>SVG2</figcaption>
+            <video muted playsinline preload="none" controls poster="static/images/magpie-svg2.webp" aria-label="SVG2 comparison video">
+              <source src="static/videos/magpie-svg2.mp4" type="video/mp4">
+            </video>
+            <p class="video-metric">PSNR 27.53 dB</p>
+          </figure>
+        </div>
+        <div class="comparison-controls" hidden>
+          <button class="button comparison-play" type="button" id="comparison-play" aria-pressed="false">Play all</button>
+          <button class="button" type="button" id="comparison-restart">Restart</button>
+          <label class="timeline-label" for="comparison-seek">Position</label>
+          <input id="comparison-seek" type="range" min="0" max="100" step="0.1" value="0" aria-label="Seek all four comparison videos">
+          <span class="video-time" id="comparison-time">0:00 / 0:03</span>
+        </div>
+        <p class="fine-print has-text-centered">PSNR is measured over each complete video against its dense reference. These qualitative examples were generated on GH200.</p>
+      </div>
+    </section>
+
+    <section class="section" id="results" aria-labelledby="results-title">
+      <div class="container results-width">
+        <p class="section-kicker">The numbers</p>
+        <h2 class="title is-3 section-title" id="results-title">Results across three video models</h2>
+        <p class="section-intro">Evaluation on the 600-prompt Penguin Benchmark.</p>
+        <div class="table-container" tabindex="0" role="region" aria-label="AB-Attention main results">
+          <table class="table is-fullwidth results-table">
+            <caption>AB-Attention results from Table 1 of the paper.</caption>
+            <thead><tr><th scope="col">Model</th><th scope="col">Sparsity ↑</th><th scope="col">PSNR ↑</th><th scope="col">SSIM ↑</th><th scope="col">LPIPS ↓</th><th scope="col">Speedup ↑</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Wan2.1 · 1.3B</th><td>89.16%</td><td>34.436</td><td>0.9328</td><td>0.0734</td><td class="result-highlight">2.01×</td></tr>
+              <tr><th scope="row">Wan2.1 · 14B</th><td>89.16%</td><td>30.788</td><td>0.9169</td><td>0.0964</td><td class="result-highlight">1.84×</td></tr>
+              <tr><th scope="row">HunyuanVideo · 13B</th><td>92.35%</td><td>34.347</td><td>0.9480</td><td>0.0700</td><td class="result-highlight">2.23×</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="fine-print">PSNR, SSIM, and LPIPS compare against dense attention. End-to-end speedup is measured against the dense FlashAttention-3 baseline on NVIDIA H20. See the paper for the full baseline comparison and timing protocol.</p>
+        <p class="paper-link"><a href="static/papers/ab-attention.pdf">Read the full experimental results <span aria-hidden="true">↗</span></a></p>
+      </div>
+    </section>
+
+    <section class="section section-tinted" id="bibtex" aria-labelledby="bibtex-title">
+      <div class="container text-width">
+        <div class="citation-heading"><h2 class="title is-3" id="bibtex-title">BibTeX</h2><button class="button" id="copy-bibtex" type="button" hidden>Copy</button></div>
+        <pre><code id="citation">@misc{xu2026abattention,
+  title = {{AB-Attention}: Accurate Block Attention for
+           Accelerating Video Diffusion Transformers},
+  author = {Bin Xu and Mo Zhang and Zhengfeiyang Zhang and
+            Xinfeng Yang and Yixing Ma and Wei Wang and
+            HeXin Wang and Pengfei Zhou and Wangbo Zhao},
+  year = {2026},
+  url = {https://xubin04.github.io/AB-Attention/}
+}</code></pre>
+        <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="container has-text-centered">
+      <p>Built with the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template">Academic Project Page Template</a>, adapted from <a href="https://nerfies.github.io/">Nerfies</a>.</p>
+      <p>Website template: <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>. <a href="https://github.com/xubin04/AB-Attention">AB-Attention code</a> is available on GitHub.</p>
+    </div>
+  </footer>
+</body>
+</html>
