@@ -7,6 +7,10 @@ updates the site automatically. No build step or npm dependencies are required.
 Edit `index.html` for content, `static/css/index.css` for layout, and
 `static/js/index.js` for the video controls. Preview locally with
 `python3 -m http.server 8000 --directory docs` from the repository root.
+The layout follows Academic Project Page Template: a centered publication
+header, linked authors and institutions, a video teaser, alternating reading
+sections, and a return-to-top link. Inter is self-hosted; the paper's red palette
+is used throughout. The comparison thumbnails share the existing video posters.
 
 ## Content
 

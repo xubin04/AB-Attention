@@ -13,6 +13,12 @@ const samples = {
   },
 };
 
+// Keep the long project page easy to navigate, as in the original template.
+const backToTop = document.querySelector('.back-to-top');
+new IntersectionObserver(([entry]) => {
+  backToTop.hidden = entry.isIntersecting;
+}).observe(document.querySelector('.hero'));
+
 // The hero gallery plays only while visible. Reduced-motion users start paused.
 const gallery = [...document.querySelectorAll('.gallery-video')];
 const galleryToggle = document.querySelector('#gallery-toggle');

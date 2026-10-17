@@ -5,6 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AB-Attention: Accurate Block Attention for Accelerating Video Diffusion Transformers</title>
   <meta name="description" content="AB-Attention is a training-free sparse attention method for video diffusion transformers, combining intra-block clustering, inclusion-probability weighting, and fine-grained tiled execution.">
+  <meta name="author" content="Bin Xu, Mo Zhang, Zhengfeiyang Zhang, Xinfeng Yang, Yixing Ma, Wei Wang, HeXin Wang, Pengfei Zhou, Wangbo Zhao">
+  <meta name="citation_title" content="AB-Attention: Accurate Block Attention for Accelerating Video Diffusion Transformers">
+  <meta name="citation_author" content="Bin Xu">
+  <meta name="citation_author" content="Mo Zhang">
+  <meta name="citation_author" content="Zhengfeiyang Zhang">
+  <meta name="citation_author" content="Xinfeng Yang">
+  <meta name="citation_author" content="Yixing Ma">
+  <meta name="citation_author" content="Wei Wang">
+  <meta name="citation_author" content="HeXin Wang">
+  <meta name="citation_author" content="Pengfei Zhou">
+  <meta name="citation_author" content="Wangbo Zhao">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_pdf_url" content="https://xubin04.github.io/AB-Attention/static/papers/ab-attention.pdf">
   <meta name="theme-color" content="#ffffff">
   <meta property="og:type" content="website">
   <meta property="og:title" content="AB-Attention — Accurate Block Attention">
@@ -16,17 +29,16 @@
   <meta property="og:image:alt" content="AB-Attention: Accurate Block Attention for Accelerating Video Diffusion Transformers, with three generated video examples.">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://xubin04.github.io/AB-Attention/">
-  <link rel="preload" href="static/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="static/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="icon" href="static/images/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="static/css/bulma.min.css">
-  <link rel="stylesheet" href="static/css/index.css">
-  <script defer src="static/js/index.js"></script>
+  <link rel="stylesheet" href="static/css/index.css?v=20261017">
+  <script defer src="static/js/index.js?v=20261017"></script>
 </head>
 <body>
   <a class="skip-link" href="#abstract">Skip to content</a>
   <main>
-    <section class="hero" aria-labelledby="paper-title">
+    <section class="hero" id="top" aria-labelledby="paper-title">
       <div class="hero-body">
         <div class="container is-max-desktop has-text-centered">
           <p class="eyebrow"><span class="block-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>Training-free video diffusion</p>
@@ -80,12 +92,13 @@
               <span>BibTeX</span>
             </a>
           </div>
-          <nav class="section-nav" aria-label="Page sections">
-            <a href="#abstract">Overview</a><a href="#method">Method</a><a href="#comparisons">Video comparisons</a><a href="#results">Results</a>
-          </nav>
         </div>
       </div>
     </section>
+
+    <nav class="section-nav" aria-label="Page sections">
+      <a href="#abstract">Abstract</a><a href="#method">Method</a><a href="#comparisons">Video comparisons</a><a href="#results">Results</a>
+    </nav>
 
     <section class="teaser section" aria-label="Videos generated with AB-Attention">
       <div class="container page-width">
@@ -160,9 +173,9 @@
         <h2 class="title is-3 section-title" id="comparison-title">Qualitative comparisons</h2>
         <p class="section-intro">Wan2.1-T2V-14B · 720p · matched prompts and seeds</p>
         <div class="sample-selector" role="group" aria-label="Choose a video example" hidden>
-          <button type="button" data-sample="magpie" aria-pressed="true">Magpie in flight</button>
-          <button type="button" data-sample="motorcycle" aria-pressed="false">Sunset ride</button>
-          <button type="button" data-sample="mushrooms" aria-pressed="false">Wild mushrooms</button>
+          <button type="button" data-sample="magpie" aria-pressed="true"><img src="static/images/magpie-ab-attention.webp" width="160" height="90" loading="lazy" alt=""><span>Magpie in flight</span></button>
+          <button type="button" data-sample="motorcycle" aria-pressed="false"><img src="static/images/motorcycle-ab-attention.webp" width="160" height="90" loading="lazy" alt=""><span>Sunset ride</span></button>
+          <button type="button" data-sample="mushrooms" aria-pressed="false"><img src="static/images/mushrooms-ab-attention.webp" width="160" height="90" loading="lazy" alt=""><span>Wild mushrooms</span></button>
         </div>
         <p class="prompt-text" id="comparison-prompt">“A magpie takes off with a twig in its beak, in anime style.”</p>
         <div class="comparison-grid">
@@ -243,6 +256,7 @@
       </div>
     </section>
   </main>
+  <a class="back-to-top" href="#top" aria-label="Back to top" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 14 6-6 6 6"/></svg></a>
   <footer class="footer">
     <div class="container has-text-centered">
       <p>Built with the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template">Academic Project Page Template</a>, adapted from <a href="https://nerfies.github.io/">Nerfies</a>.</p>
